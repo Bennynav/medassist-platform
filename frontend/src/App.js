@@ -895,8 +895,15 @@ const DoctorDashboard = () => {
       <div className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">Doctor Portal</h1>
+            <div className="flex items-center space-x-3">
+              <img
+                className="h-8 w-8"
+                src="https://images.unsplash.com/photo-1580115465903-0e4a824a4e9a"
+                alt="MedAssist Logo"
+              />
+              <h1 className="text-xl font-semibold text-blue-600">MedAssist</h1>
+              <span className="text-gray-400">|</span>
+              <span className="text-lg text-gray-700">Doctor Portal</span>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-gray-700">Dr. {user.full_name}</span>
