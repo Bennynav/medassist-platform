@@ -196,14 +196,14 @@ const LandingPage = () => {
           </div>
 
           <div className="mt-10">
-            <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
+            <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-5 md:gap-x-8 md:gap-y-10">
               <div className="relative">
                 <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                 </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Instant Chat with Doctors</p>
+                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Instant Doctor Chat</p>
                 <p className="mt-2 ml-16 text-base text-gray-500">
                   Connect with qualified doctors instantly through our secure messaging platform.
                 </p>
@@ -222,7 +222,31 @@ const LandingPage = () => {
               </div>
 
               <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-green-500 text-white">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Home Lab Tests</p>
+                <p className="mt-2 ml-16 text-base text-gray-500">
+                  Professional lab technicians visit your home for sample collection and testing.
+                </p>
+              </div>
+
+              <div className="relative">
+                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                </div>
+                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Drug Delivery</p>
+                <p className="mt-2 ml-16 text-base text-gray-500">
+                  Get your medications delivered directly to your doorstep with same-day delivery.
+                </p>
+              </div>
+
+              <div className="relative">
+                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-red-500 text-white">
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
