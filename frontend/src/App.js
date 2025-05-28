@@ -1420,7 +1420,7 @@ const PharmacyDashboard = () => {
 };
 
 // Main App Component
-function App() {
+function AppContent() {
   const { isAuthenticated, user } = useAuth();
 
   const renderDashboard = () => {
@@ -1439,10 +1439,16 @@ function App() {
   };
 
   return (
+    <div className="App">
+      {!isAuthenticated ? <LandingPage /> : renderDashboard()}
+    </div>
+  );
+}
+
+function App() {
+  return (
     <AuthProvider>
-      <div className="App">
-        {!isAuthenticated ? <LandingPage /> : renderDashboard()}
-      </div>
+      <AppContent />
     </AuthProvider>
   );
 }
