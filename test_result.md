@@ -234,10 +234,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Multi-role authentication system"
-    - "Real-time chat system between patients and doctors"
-    - "Prescription management system"
-    - "Database models and storage"
+    - "Landing page with role-based registration"
+    - "Patient dashboard with chat and prescription management"
+    - "Doctor dashboard with patient management and prescription writing"
+    - "Pharmacy dashboard with prescription dispensing"
+    - "Authentication context and role-based routing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
