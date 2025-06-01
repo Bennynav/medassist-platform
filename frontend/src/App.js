@@ -83,6 +83,99 @@ const useAuth = () => {
   return context;
 };
 
+// Enhanced Loading Component
+const LoadingSpinner = ({ size = 'md' }) => {
+  const sizeClasses = {
+    sm: 'h-4 w-4',
+    md: 'h-8 w-8',
+    lg: 'h-12 w-12'
+  };
+
+  return (
+    <div className="flex justify-center items-center">
+      <div className={`${sizeClasses[size]} animate-spin rounded-full border-b-2 border-blue-600`}></div>
+    </div>
+  );
+};
+
+// Enhanced Stats Card Component
+const StatsCard = ({ title, value, icon, trend, trendValue, color = 'blue' }) => {
+  const colorClasses = {
+    blue: 'bg-blue-500',
+    green: 'bg-green-500',
+    purple: 'bg-purple-500',
+    red: 'bg-red-500',
+    yellow: 'bg-yellow-500',
+    indigo: 'bg-indigo-500'
+  };
+
+  return (
+    <div className="bg-white overflow-hidden shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+      <div className="p-6">
+        <div className="flex items-center">
+          <div className="flex-shrink-0">
+            <div className={`p-3 rounded-lg ${colorClasses[color]} text-white`}>
+              {icon}
+            </div>
+          </div>
+          <div className="ml-5 w-0 flex-1">
+            <dl>
+              <dt className="text-sm font-medium text-gray-500 truncate">{title}</dt>
+              <dd className="flex items-baseline">
+                <div className="text-2xl font-bold text-gray-900">{value}</div>
+                {trend && (
+                  <div className={`ml-2 flex items-baseline text-sm font-semibold ${
+                    trend === 'up' ? 'text-green-600' : 'text-red-600'
+                  }`}>
+                    {trend === 'up' ? (
+                      <svg className="self-center flex-shrink-0 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                      </svg>
+                    ) : (
+                      <svg className="self-center flex-shrink-0 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                    <span className="sr-only">{trend === 'up' ? 'Increased' : 'Decreased'} by</span>
+                    {trendValue}
+                  </div>
+                )}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Enhanced Quick Action Card
+const QuickActionCard = ({ title, description, icon, onClick, color = 'blue' }) => {
+  const colorClasses = {
+    blue: 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700',
+    green: 'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700',
+    purple: 'from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700',
+    red: 'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
+  };
+
+  return (
+    <div 
+      onClick={onClick}
+      className={`bg-gradient-to-r ${colorClasses[color]} p-6 rounded-xl text-white cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl`}
+    >
+      <div className="flex items-center space-x-4">
+        <div className="p-3 bg-white bg-opacity-20 rounded-lg">
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">{title}</h3>
+          <p className="text-sm opacity-90">{description}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Landing Page Component
 const LandingPage = () => {
   const { login, register } = useAuth();
@@ -127,20 +220,25 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="relative z-10 pb-8 bg-gradient-to-br from-blue-50 to-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+          <div className="relative z-10 pb-8 bg-gradient-to-br from-blue-50 via-white to-purple-50 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
             {/* Logo Section */}
             <div className="flex items-center justify-center lg:justify-start pt-6 px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center space-x-3">
-                <img
-                  className="h-12 w-12"
-                  src="https://images.unsplash.com/photo-1580115465903-0e4a824a4e9a"
-                  alt="MedAssist Logo"
-                />
-                <h1 className="text-3xl font-bold text-blue-600">MedAssist</h1>
+              <div className="flex items-center space-x-3 group">
+                <div className="relative">
+                  <img
+                    className="h-12 w-12 transform group-hover:scale-110 transition-transform duration-300"
+                    src="https://images.unsplash.com/photo-1580115465903-0e4a824a4e9a"
+                    alt="MedAssist Logo"
+                  />
+                  <div className="absolute inset-0 bg-blue-400 opacity-20 rounded-full animate-pulse"></div>
+                </div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  MedAssist
+                </h1>
               </div>
             </div>
             
@@ -148,25 +246,25 @@ const LandingPage = () => {
               <div className="sm:text-center lg:text-left">
                 <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                   <span className="block xl:inline">Healthcare at</span>
-                  <span className="block text-blue-600 xl:inline"> your fingertips</span>
+                  <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent xl:inline"> your fingertips</span>
                 </h1>
-                <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                <p className="mt-3 text-base text-gray-600 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                   Connect with doctors instantly, get home lab tests, enjoy drug delivery, and manage prescriptions from anywhere. 
                   MedAssist makes healthcare accessible, convenient, and secure.
                 </p>
-                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                  <div className="rounded-md shadow">
+                <div className="mt-8 sm:mt-10 sm:flex sm:justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4">
+                  <div className="rounded-md shadow-lg">
                     <button
                       onClick={() => setShowLogin(false)}
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10 transition duration-150"
+                      className="w-full flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg"
                     >
                       Get Started
                     </button>
                   </div>
-                  <div className="mt-3 sm:mt-0 sm:ml-3">
+                  <div>
                     <button
                       onClick={() => setShowLogin(true)}
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10 transition duration-150"
+                      className="w-full flex items-center justify-center px-8 py-4 border-2 border-blue-600 text-base font-medium rounded-xl text-blue-700 bg-white hover:bg-blue-50 transform hover:scale-105 transition-all duration-300"
                     >
                       Sign In
                     </button>
@@ -177,169 +275,183 @@ const LandingPage = () => {
           </div>
         </div>
         <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-          <img
-            className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-            src="https://images.pexels.com/photos/4031818/pexels-photo-4031818.jpeg"
-            alt="Telemedicine consultation"
-          />
+          <div className="relative h-56 w-full sm:h-72 md:h-96 lg:w-full lg:h-full overflow-hidden rounded-l-3xl lg:rounded-l-none">
+            <img
+              className="h-full w-full object-cover transform hover:scale-105 transition-transform duration-700"
+              src="https://images.pexels.com/photos/4031818/pexels-photo-4031818.jpeg"
+              alt="Telemedicine consultation"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-transparent opacity-20"></div>
+          </div>
         </div>
       </div>
 
-      {/* Features Section */}
-      <div className="py-12 bg-white">
+      {/* Enhanced Features Section */}
+      <div className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center">
+          <div className="lg:text-center mb-16">
             <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">Features</h2>
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
               Complete Healthcare Solution
             </p>
+            <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+              Everything you need for modern healthcare, all in one platform
+            </p>
           </div>
 
           <div className="mt-10">
-            <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-5 md:gap-x-8 md:gap-y-10">
-              <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                {
+                  title: "Instant Doctor Chat",
+                  description: "Connect with qualified doctors instantly through our secure messaging platform.",
+                  icon: <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>,
+                  color: "blue"
+                },
+                {
+                  title: "Digital Prescriptions",
+                  description: "Receive and manage your prescriptions digitally with easy pharmacy integration.",
+                  icon: <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
+                  color: "green"
+                },
+                {
+                  title: "Home Lab Tests",
+                  description: "Professional lab technicians visit your home for sample collection and testing.",
+                  icon: <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>,
+                  color: "purple"
+                },
+                {
+                  title: "Drug Delivery",
+                  description: "Get your medications delivered directly to your doorstep with same-day delivery.",
+                  icon: <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>,
+                  color: "indigo"
+                },
+                {
+                  title: "24/7 Support",
+                  description: "Round-the-clock medical support and emergency consultation services.",
+                  icon: <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+                  color: "red"
+                },
+                {
+                  title: "Secure & Private",
+                  description: "Your health information is protected with enterprise-grade security and encryption.",
+                  icon: <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>,
+                  color: "yellow"
+                }
+              ].map((feature, index) => (
+                <div key={index} className="relative group">
+                  <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 p-8 border border-gray-100">
+                    <div className={`inline-flex items-center justify-center p-3 bg-gradient-to-r from-${feature.color}-500 to-${feature.color}-600 rounded-xl text-white mb-6`}>
+                      {feature.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-4">{feature.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                  </div>
                 </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Instant Doctor Chat</p>
-                <p className="mt-2 ml-16 text-base text-gray-500">
-                  Connect with qualified doctors instantly through our secure messaging platform.
-                </p>
-              </div>
-
-              <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Digital Prescriptions</p>
-                <p className="mt-2 ml-16 text-base text-gray-500">
-                  Receive and manage your prescriptions digitally with easy pharmacy integration.
-                </p>
-              </div>
-
-              <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-green-500 text-white">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                  </svg>
-                </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Home Lab Tests</p>
-                <p className="mt-2 ml-16 text-base text-gray-500">
-                  Professional lab technicians visit your home for sample collection and testing.
-                </p>
-              </div>
-
-              <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                  </svg>
-                </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Drug Delivery</p>
-                <p className="mt-2 ml-16 text-base text-gray-500">
-                  Get your medications delivered directly to your doorstep with same-day delivery.
-                </p>
-              </div>
-
-              <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-red-500 text-white">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Secure & Private</p>
-                <p className="mt-2 ml-16 text-base text-gray-500">
-                  Your health information is protected with enterprise-grade security and encryption.
-                </p>
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Auth Form Section */}
-      <div className="bg-gray-50 py-12">
-        <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg p-6">
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">
-              {showLogin ? 'Sign In' : 'Create Account'}
+      {/* Enhanced Auth Form Section */}
+      <div className="bg-gradient-to-br from-gray-50 to-blue-50 py-16">
+        <div className="max-w-md mx-auto bg-white rounded-2xl shadow-2xl p-8 m-4">
+          <div className="text-center mb-8">
+            <div className="flex justify-center mb-4">
+              <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl">
+                <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900">
+              {showLogin ? 'Welcome Back' : 'Join MedAssist'}
             </h2>
             <p className="text-gray-600 mt-2">
-              {showLogin ? 'Welcome back to your healthcare portal' : 'Join our telemedicine platform'}
+              {showLogin ? 'Sign in to your healthcare portal' : 'Create your account and start your health journey'}
             </p>
           </div>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-              {error}
+            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-400 rounded-lg">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm text-red-700">{error}</p>
+                </div>
+              </div>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {!showLogin && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Full Name</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
                   <input
                     type="text"
                     name="full_name"
                     value={formData.full_name}
                     onChange={handleInputChange}
                     required
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Enter your full name"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Role</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Role</label>
                   <select
                     name="role"
                     value={formData.role}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   >
-                    <option value="patient">Patient</option>
-                    <option value="doctor">Doctor</option>
-                    <option value="pharmacy">Pharmacy</option>
+                    <option value="patient">👤 Patient</option>
+                    <option value="doctor">👩‍⚕️ Doctor</option>
+                    <option value="pharmacy">🏥 Pharmacy</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Phone</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    placeholder="+1 (555) 123-4567"
                   />
                 </div>
 
                 {formData.role === 'doctor' && (
                   <>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Specialization</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Specialization</label>
                       <input
                         type="text"
                         name="specialization"
                         value={formData.specialization}
                         onChange={handleInputChange}
                         placeholder="e.g., Cardiology, General Practice"
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">License Number</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Medical License Number</label>
                       <input
                         type="text"
                         name="license_number"
                         value={formData.license_number}
                         onChange={handleInputChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                        placeholder="Enter your license number"
                       />
                     </div>
                   </>
@@ -347,13 +459,14 @@ const LandingPage = () => {
 
                 {formData.role === 'pharmacy' && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Pharmacy License</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Pharmacy License</label>
                     <input
                       type="text"
                       name="license_number"
                       value={formData.license_number}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      placeholder="Enter pharmacy license number"
                     />
                   </div>
                 )}
@@ -361,39 +474,48 @@ const LandingPage = () => {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                placeholder="Enter your email"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
               <input
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                placeholder="Enter your password"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 transition-all duration-300"
             >
-              {loading ? 'Please wait...' : (showLogin ? 'Sign In' : 'Create Account')}
+              {loading ? (
+                <>
+                  <LoadingSpinner size="sm" />
+                  <span className="ml-2">Please wait...</span>
+                </>
+              ) : (
+                showLogin ? 'Sign In' : 'Create Account'
+              )}
             </button>
           </form>
 
-          <div className="mt-4 text-center">
+          <div className="mt-6 text-center">
             <button
               onClick={() => {
                 setShowLogin(!showLogin);
@@ -408,9 +530,9 @@ const LandingPage = () => {
                   license_number: ''
                 });
               }}
-              className="text-blue-600 hover:text-blue-500 text-sm"
+              className="text-blue-600 hover:text-blue-500 text-sm font-medium hover:underline transition-colors duration-300"
             >
-              {showLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
+              {showLogin ? "Don't have an account? Create one" : 'Already have an account? Sign in'}
             </button>
           </div>
         </div>
